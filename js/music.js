@@ -4,8 +4,13 @@
 // 自定义背景音乐的 播放/暂停 功能
 function playPause(){
     var music = document.getElementById("music");
-    if (music.paused)
+    var aTitle = document.getElementById("aTitle");
+    if (music.paused){
         music.play();
-    else
+        aTitle.title = "暂停音乐";
+    }
+    else{
         music.pause();
+        aTitle.title = "播放音乐";
+    }
 }
