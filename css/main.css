@@ -57,7 +57,7 @@ body:before {
 .icon-blog:before {
     content: "\e603";
 }
-.icon-weiXin:before {
+.icon-weibo:before {
     content: "\e60f";
 }
 .icon-photo:before {
