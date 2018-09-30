@@ -45,5 +45,13 @@
         </a>
     </div>
 </div>
+<img src="timg.gif" id="im" alt="" style="position: absolute;width: 66px;"/>
+<script type="text/javascript">
+    var imobj = document.getElementById("im");
+    document.onmousemove = function (e) {
+        imobj.style.left = e.clientX + 25 + "px";
+        imobj.style.top = e.clientY + "px";
+    }
+</script>
 </body>
 </html>
