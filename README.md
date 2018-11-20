@@ -1,5 +1,5 @@
-# fifteen718.github.com
-> github搭建个人站点
+# fifteen718.github.io
+> 基于github搭建个人站点
 
 # 功能介绍
 * Inspired by https://miantiao.me/
