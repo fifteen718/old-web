@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>摄影</title>
+
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #fff;
+            color: #555;
+            font-family: 'Avenir Next', 'Lantinghei SC';
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wrap {
+            width: 100%;
+            height: 600px;
+            position: absolute;
+            top: 50%;
+            margin-top:-300px;
+            background-color: #475053;
+            overflow: hidden;
+            perspective: 800px;
+            -webkit-perspective: 800px;
+        }
+
+        .photo {
+            position: absolute;
+            width: 260px;
+            height: 320px;
+            z-index: 1;
+            box-shadow: 0 0 1px rgba(0, 0, 0, .01);
+            transition: all .5s;
+            -moz-transition: all .5s;
+            -webkit-transition: all .5s;
+            -o-transition: all .5s;
+            left: 50%;
+            top: 50%;
+            margin: -160px 0 0 -130px;
+        }
+
+        .photo .photo-wrap .side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            top: 0;
+            right: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            -moz-box-sizing：border-box;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            -ms-backface-visibility: hidden;
+        }
+
+        .photo .photo-wrap .side-front {
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+        }
+
+        .photo .photo-wrap .side-front .image {
+            width: 100%;
+            height: 250px;
+            line-height: 250px;
+            overflow: hidden;
+        }
+
+        .photo .photo-wrap .side-front .image img {
+            width: 100%;
+            vertical-align: middle;
+        }
+
+        .photo .photo-wrap .side-front .caption {
+            text-align: center;
+            font-size: 16px;
+            line-height: 50px;
+        }
+
+        .photo .photo-wrap .side-back {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+        }
+
+        .photo .photo-wrap .side-back .desc {
+            cursor: default;
+            color: #8C8C8C;
+            font-size: 12px;
+            line-height: 22PX;
+            text-align: center;
+            font-family: "微软雅黑";
+            margin-top: 40px;
+        }
+
+        .photo_center {
+            top: 50%;
+            left: 50%;
+            margin: -160px 0 0 -130px;
+            z-index: 2;
+        }
+
+        .photo .photo-wrap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transition: all .6s ease-in-out;
+            -webkit-transition: all .6s ease-in-out;
+            -moz-transition: all .5s;
+            -o-transition: all .5s;
+            transform-origin: 0% 50% 0px;
+            -ms-transform-origin: 0% 50% 0px;
+            -o-transform-origin: 0% 50% 0px;
+            -webkit-transform-origin: 0% 50% 0px;
+            -moz-transform-origin: 0% 50% 0px;
+        }
+
+        .photo_front .photo-wrap {
+            transform: translate(0px, 0px) rotateY(0deg);
+            -webkit-transform: translate(0px, 0px) rotateY(0deg);
+            -moz-transform: translate(0px, 0px) rotateY(0deg);
+            -o-transform: translate(0px, 0px) rotateY(0deg);
+            -ms-transform: translate(0px, 0px) rotateY(0deg);
+        }
+
+        .photo_back .photo-wrap {
+            transform: translate(260px, 0px) rotateY(180deg);
+            -webkit-transform: translate(260px, 0px) rotateY(180deg);
+            -moz-transform: translate(260px, 0px) rotateY(180deg);
+            -o-transform: translate(260px, 0px) rotateY(180deg);
+            -ms-transform: translate(260px, 0px) rotateY(180deg);
+        }
+
+        .nav {
+            position: absolute;
+            width: 80%;
+            left: 10%;
+            height: 30px;
+            line-height: 30px;
+            bottom: 20px;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .nav .i {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            background-color: #41CB83;
+            text-align: center;
+            border-radius: 50px;
+            transform: scale(.5);
+            -webkit-transform: scale(.5);
+            -moz-transform: scale(.5);
+            -o-transform: scale(.5);
+            -ms-transform: scale(.5);
+            transition: all .5s;
+            -webkit-transition: all .5s;
+            -moz-transition: all .5s;
+            -o-transition: all .5s;
+        }
+
+        .nav .i:after {
+            content: '\e965';
+            font-family: '微软雅黑';
+            font-size: 80%;
+            display: inline-block;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+        }
+
+        .nav .i_current {
+            transform: scale(1);
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -o-transform: scale(1);
+            -ms-transform: scale(1);
+        }
+
+        .nav .i_current:after {
+            opacity: 1;
+        }
+
+        .nav .i_back {
+            background-color: #FF7870;
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body onselectstart="return false;" style="-moz-user-select:none;">
+<div class="wrap" id="wrap"></div>
+
+<script type="text/javascript" src="../js/data.js"></script>
+<script type="text/javascript">
+
+    function g(selector) {
+        return selector.substring(0, 1) == '.' ? document.getElementsByClassName(selector.substring(1)) : document.getElementById(selector.substring(1));
+    }
+
+    function random(range) {
+        var min = Math.min(range[0], range[1]);
+        var max = Math.max(range[0], range[1]);
+        var diff = max - min;
+        var number = Math.round(Math.random() * diff) + min;
+        return number;
+    }
+
+    function addPhotos() {
+        var _wrap = '';
+        var _nav = '';
+        for (var i = 0; i < data.length; i++) {//for in 循环中的循环计数器是字符串，而不是数字它包含当前属性的名称或当前数组元素的索引
+            _wrap += '<div class="photo  photo_front" onclick="turn(this)" id="photo_' + (i + 1) + '"><div class="photo-wrap"><div class="side side-front"><p class="image"><img src="../images/photos/' + data[i].img + '"></p><p class="caption">' + data[i].caption + '</p></div><div class="side side-back"><p class="desc">' + data[i].desc + '</p></div></div></div></div>';
+
+            _nav += '<span id="nav_' + (i + 1) + '" onclick="turn(g(\'#photo_' + (i + 1) + '\'))" class="i"></span>';
+        }
+        var navigation = '<div class="nav">' + _nav + '</div>'
+        g('#wrap').innerHTML = _wrap + navigation;
+
+        rsort(random([1, data.length]));
+    }
+
+    addPhotos();
+
+    function range() {
+        var range = {
+            left: {
+                x: [],
+                y: []
+            },
+            right: {
+                x: [],
+                y: []
+            }
+        };
+
+        var wrap = {
+            width: g('#wrap').clientWidth,
+            height: g('#wrap').clientHeight
+        };
+
+        var photo = {
+            width: g('.photo')[0].clientWidth,
+            height: g('.photo')[0].clientHeight
+        };
+
+        range.left.x = [0 - photo.width / 4 + 130, wrap.width / 2 - photo.width * 5 / 4 + 130];
+        range.left.y = [0 - photo.height / 4 + 160, wrap.height - photo.height * 3 / 4 + 160];
+        range.right.x = [wrap.width / 2 + photo.width / 4 + 130, wrap.width - photo.width / 4 + 130];
+        range.right.y = range.left.y;
+
+        return range;
+    }
+
+    function rsort(n) {
+        var _photo = g('.photo');
+        var photos = [];
+        for (var i = 0; i < _photo.length; i++) {
+            _photo[i].className = 'photo photo_front';
+
+            _photo[i].style.left = '';
+            _photo[i].style.top = '';
+
+            _photo[i].style['transform'] = _photo[i].style['-webkit-transform'] = 'scale(1.3)';
+
+            photos.push(_photo[i]);
+        }
+        var photo_center = g('#photo_' + n);
+        photo_center.className += ' photo_center';
+
+        photo_center = photos.splice(n - 1, 1);
+
+        var photos_left = photos.splice(0, Math.ceil(photos.length / 2));
+        var photos_right = photos;
+        var ranges = range();
+
+        for (var j = 0; j < photos_left.length; j++) {
+            var photo = photos_left[j];
+            photo.style.left = random(ranges.left.x) + 'px';
+            photo.style.top = random(ranges.left.y) + 'px';
+            photo.style['transform'] = photo.style['-webkit-transform'] = 'rotate(' + random([-150, 150]) + 'deg) scale(1)';
+        }
+        for (var s = 0; s < photos_right.length; s++) {
+            var photo = photos_right[s];
+            photo.style.left = random(ranges.right.x) + 'px';
+            photo.style.top = random(ranges.right.y) + 'px';
+            photo.style['transform'] = photo.style['-webkit-transform'] = 'rotate(' + random([-150, 150]) + 'deg) scale(1)';
+        }
+
+        var navs = g('.i');
+        for (var k = 0; k < navs.length; k++) {
+            navs[k].className = 'i';
+        }
+        g('#nav_' + n).className += ' i_current';
+    }
+
+    function turn(elem) {
+        var cls = elem.className;
+        var n = elem.id.split('_')[1];
+        if (!/photo_center/.test(cls)) {
+            return rsort(n);
+        }
+        if (/photo_front/.test(cls)) {
+            cls = cls.replace(/photo_front/, 'photo_back');
+            g('#nav_' + n).className += ' i_back';
+        } else {
+            cls = cls.replace(/photo_back/, 'photo_front');
+            g('#nav_' + n).className = g('#nav_' + n).className.replace(/\s*i_back\s*/, ' ');
+        }
+
+        elem.className = cls;
+    }
+
+    var ie;
+    if (document.all) ie = true; else ie = false;
+    document.onkeydown = KeyPress;
+    function KeyPress() {
+        var key;
+        if (ie) {
+            key = event.keyCode;
+        } else {
+            key = KeyPress.arguments[0].keyCode;
+        }
+        var currentDom = document.getElementsByClassName("i_current")[0];
+        var nextDom = currentDom.nextElementSibling;
+        var previousDom = currentDom.previousElementSibling;
+        switch (key) {
+            case 39:
+                if (nextDom == null) {
+                    document.getElementById("nav_1").click();
+                } else {
+                    nextDom.click();
+                }
+                break;
+
+            case 37:
+                if (previousDom == null) {
+                    document.getElementById("nav_20").click();
+                } else {
+                    previousDom.click();
+                }
+                break;
+
+            case 38:
+            case 40:
+                currentDom.click();
+                break;
+        }
+    }
+
+</script>
+</body>
+</html>
